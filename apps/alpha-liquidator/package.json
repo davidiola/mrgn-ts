@@ -10,7 +10,7 @@
     "watch": "tsc-watch -p tsconfig.json --onCompilationComplete 'yarn build' --onSuccess 'yarn serve'",
     "setup": "ts-node src/setup.ts",
     "inspect": "ts-node src/inspect.ts",
-    "start": "ts-node src/runLiquidatorJupApi.ts"
+    "start": "DEBUG=mfi:* ts-node src/runLiquidatorJupApi.ts"
   },
   "license": "MIT",
   "dependencies": {
@@ -28,6 +28,7 @@
     "@solana/spl-token": "0.1.8",
     "@solana/spl-token-registry": "~0.2.1105",
     "@solana/web3.js": "~1.72.0",
+    "@types/bs58": "^4.0.4",
     "bignumber.js": "^9.1.1",
     "bn.js": "5.2.1",
     "cookie": "^0.4.1",

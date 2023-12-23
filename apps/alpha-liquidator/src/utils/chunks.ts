@@ -43,7 +43,7 @@ export async function chunkedGetRawMultipleAccountInfos(
 
     let accountInfos: Array<AccountInfo<string[]> | null> = [];
     let retries = 0;
-    const maxRetries = 3;
+    const maxRetries = 25;
 
     while (retries < maxRetries && accountInfos.length === 0) {
       try {
@@ -51,6 +51,7 @@ export async function chunkedGetRawMultipleAccountInfos(
           // @ts-ignore
           ._rpcBatchRequest(batchRequest)
           .then((batchResults: Result[]) => {
+            // console.log("batchResults: ", batchResults);
             contextSlot = Math.max(...batchResults.map((res) => res.result.context.slot));
 
             const accounts = batchResults.reduce((acc, res) => {

@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  9rya:
+    build: .
+    env_file:
+      - .env.9rya
+
+  5Rn7:
+    build: .
+    env_file:
+      - .env.5Rn7
+
+  6wWc:
+    build: .
+    env_file:
+      - .env.6wWc
+
+  HtZs:
+    build: .
+    env_file:
+      - .env.HtZs
+
+  UCHL:
+    build: .
+    env_file:
+      - .env.UCHL

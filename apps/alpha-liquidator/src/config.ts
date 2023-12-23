@@ -7,6 +7,7 @@ import * as fs from "fs";
 import path from "path";
 import { homedir } from "os";
 import BigNumber from "bignumber.js";
+import base58 from "bs58";
 
 const Sentry = require("@sentry/node");
 
@@ -34,10 +35,10 @@ let envSchema = z.object({
     .string()
     .default("120")
     .transform((s) => parseInt(s, 10)),
-  /// 30 minutes
+  /// 60 minutes
   ACCOUNT_REFRESH_INTERVAL_SECONDS: z
     .string()
-    .default("1800")
+    .default("3600")
     .transform((s) => parseInt(s, 10)),
   EXCLUDE_ISOLATED_BANKS: z
     .string()
@@ -46,7 +47,7 @@ let envSchema = z.object({
     .transform((s) => s === "true" || s === "1"),
   TX_FEE: z
     .string()
-    .default("0.005")
+    .default("0.00005")
     .transform((s) => Math.round(Number.parseFloat(s) * LAMPORTS_PER_SOL)),
   IS_DEV: z
     .string()
@@ -89,18 +90,19 @@ let envSchema = z.object({
   SENTRY_DSN: z.string().optional(),
   SLEEP_INTERVAL_SECONDS: z
     .string()
-    .default("5")
+    .default("1")
     .transform((s) => parseInt(s, 10)),
   SORT_ACCOUNTS_MODE: z
     .string()
     .optional()
-    .default("false")
+    .default("true")
     .transform((s) => s === "true" || s === "1"),
   WALLET_KEYPAIR: z.string().transform((keypairStr) => {
     if (fs.existsSync(resolveHome(keypairStr))) {
+      console.log("loading keypair!");
       return loadKeypair(keypairStr);
     } else {
-      return Keypair.fromSecretKey(new Uint8Array(JSON.parse(keypairStr)));
+      return Keypair.fromSecretKey(base58.decode(keypairStr));
     }
   }),
   WS_ENDPOINT: z.string().url().optional(),
